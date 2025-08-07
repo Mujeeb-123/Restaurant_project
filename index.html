@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Udupi Restaurant Manager</title>
+</head>
+<style>
+  body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #1e1e1e;
+  color: #ffffff;
+  margin: 0;
+  background: url('./pexels-roman-odintsov-4551832.jpg') no-repeat center center fixed;
+  background-size: cover;
+  color: #fff;
+}
+body::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: -1;
+}
+
+main{
+    flex: 1;
+}
+header {
+  background-color: #161b22;
+  padding: 1rem;
+  text-align: center;
+}
+header h1{
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    color: #006aff;
+}
+header p{
+    font-family: 'Courier New', Courier, monospace;
+    color:#938e8e ;
+}
+
+nav button {
+  background-color: #007ef3;
+  color: white;
+  margin: 0.5rem;
+  padding: 0.5rem 1rem;
+  border: none;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: transform 0.2s;
+  font-weight: 600;
+}
+
+nav button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgb(0, 118, 253,0.8);
+
+}
+
+
+.section {
+  display: none;
+  padding: 20px;
+}
+
+.section.active {
+  display: block;
+}
+
+.filters select {
+  background: #006aff;
+  color: white;
+  padding: 10px;
+  border: 2px solid #000000;
+  border-radius: 8px;
+  margin-right: 10px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 10px;
+  margin-top: 1rem;
+}
+
+
+.menu-item {
+  margin-top: 20px;
+  background-color: #13161b;
+  border-radius: 10px;
+  padding: 20px;
+  margin: 15px;
+  max-width: 300px;
+  text-align: center;
+}
+
+
+.menu-item:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(0, 142, 251, 0.5);
+}
+
+.menu-item img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  margin-bottom: 10px;
+}
+
+.menu-item button {
+  background-color: #007ef3;
+  color: white;
+  margin: 0.5rem;
+  padding: 0.5rem 1rem;
+  border: none;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: transform 0.2s;
+  font-weight: 600;
+}
+
+.menu-item button:hover {
+  transform: scale(1.05);
+  background: #2ea043;
+}
+
+form input, form button {
+  display: block;
+  margin: 10px 0;
+  padding: 10px;
+  width: 100%;
+  background: #21262d;
+  color: white;
+  border: 1px solid #30363d;
+  border-radius: 5px;
+}
+
+form button {
+  background: #238636;
+}
+
+form button:hover {
+  background: #2ea043;
+}
+
+.popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #238636;
+  color: white;
+  padding: 15px 30px;
+  border-radius: 8px;
+  display: none;
+  z-index: 999;
+  font-size: 18px;
+}
+.site-header {
+  background-color: #1c1c1c;
+  padding: 20px;
+  text-align: center;
+  border-bottom: 2px solid #00bcd4;
+}
+
+.site-title {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.site-footer {
+  background-color: #1c1c1c;
+  color: #ccc;
+ position: relative;
+ bottom: 0;
+ left: 0;
+  font-size: 0.95rem;
+}
+
+.footer-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  max-width: 1000px;
+  margin: auto;
+}
+
+.footer-section {
+  flex: 1 1 250px;
+  margin: 10px 20px;
+}
+
+.footer-section h3 {
+  color: #00bcd4;
+  margin-bottom: 10px;
+}
+
+.footer-section a {
+  color: #ccc;
+  text-decoration: none;
+}
+
+.footer-section a:hover {
+  color: #00bcd4;
+}
+
+.footer-bottom {
+  text-align: center;
+  margin-top: 30px;
+  border-top: 1px solid #333;
+  padding-top: 10px;
+  font-size: 0.85rem;
+}
+.social-icons a img {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border-radius: 50%;
+}
+
+.social-icons a:hover img {
+  transform: scale(1.2);
+  box-shadow: 0 0 10px rgba(0, 153, 255, 0.7);
+}
+
+</style>
+<body>
+    <header>
+    <h1>Udupi Restaurant</h1>
+    <p>Where Taste Meets Tradition</p>
+    <nav>
+      <button onclick="showSection('menu')">Menu</button>
+      <button onclick="showSection('cart')">Cart</button>
+      <button onclick="showSection('booking')">Table Booking</button>
+      <button onclick="showSection('queue')">Order Queue</button>
+      <button onclick="showSection('invoice')">Invoice</button>
+      <button onclick="showSection('dashboard')">Staff Dashboard</button>
+    </nav>
+  </header>
+ 
+
+  <main>
+    <section id="menu" class="section active">
+      <h2>Menu</h2>
+      <div class="filters">
+        <select id="vegFilter" onchange="filterMenu()">
+          <option value="all">All</option>
+          <option value="veg">Veg</option>
+          <option value="nonveg">Non-Veg</option>
+        </select>
+        <select id="categoryFilter" onchange="filterMenu()">
+          <option value="all">All</option>
+          <option value="starter">Starter</option>
+          <option value="main">Main</option>
+          <option value="dessert">Dessert</option>
+        </select>
+      </div>
+      <div id="menuItems" class="grid"></div>
+    </section>
+
+    <section id="cart" class="section">
+      <h2>Cart</h2>
+      <div id="cartItems"></div>
+      <p><strong>Total:</strong> ₹<span id="totalPrice">0</span></p>
+      <button onclick="placeOrder()">Place Order</button>
+    </section>
+
+    <section id="booking" class="section">
+      <h2>Table Booking</h2>
+      <form onsubmit="bookTable(event)">
+        <input type="text" placeholder="Name" required />
+        <input type="tel" placeholder="Phone" required />
+        <input type="number" placeholder="Guests" required />
+        <input type="date" required />
+        <input type="time" required />
+        <button type="submit">Book</button>
+      </form>
+      <div id="bookingList"></div>
+    </section>
+
+    <section id="invoice" class="section">
+      <h2>Invoice</h2>
+      <div id="invoiceContent"></div>
+    </section>
+
+    <section id="queue" class="section">
+      <h2>Order Queue</h2>
+      <div id="orderQueue"></div>
+    </section>
+
+    <section id="dashboard" class="section">
+      <h2>Dashboard</h2>
+      <div id="dashboardContent"></div>
+    </section>
+  </main>
+
+  <div id="popup" class="popup"></div>
+ <footer class="site-footer">
+  <div class="footer-container">
+    <div class="footer-section">
+      <h3>About Udupi</h3>
+      <p>Serving authentic South Indian cuisine with tradition and taste. Dine-in, takeaway, and delivery options available.</p>
+    </div>
+
+    <div class="footer-section">
+      <h3>Contact</h3>
+      <p>Email: <a href="mailto:udipi@udupirestaurant.com">udipi@restaurant.com</a></p>
+      <p>Phone: +91 98765 43210</p>
+      <p>Address: NTR Circle, Madanapalli, Andhra Pradesh, India</p>
+    </div>
+
+    <div class="footer-section">
+      <h3>Follow Us</h3>
+      <div class="social-icons">
+  <a href="#" target="_blank">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Facebook_Logo.png" alt="Facebook" width="24" height="24" style="margin-right: 10px;">
+  </a>
+  <a href="#" target="_blank">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram" width="24" height="24" style="margin-right: 10px;">
+  </a>
+  <a href="#" target="_blank">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6f/Logo_of_Twitter.svg" alt="Twitter" width="24" height="24" style="margin-right: 10px;">
+  </a>
+</div>
+
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>&copy; 2025 Udupi Restaurant. All rights reserved.</p>
+  </div>
+</footer>
+x
+  <script >
+    const menuItems = [
+  { id: 1, name: "Masala Dosa", price: 50, veg: true, category: "main", img: "dosa.jpg" },
+  { id: 2, name: "Chicken Biryani", price: 150, veg: false, category: "main", img: "biryani.jpg" },
+  { id: 3, name: "Gulab Jamun", price: 40, veg: true, category: "dessert", img: "gulab-jamun.jpg" },
+  { id: 4, name: "Paneer Tikka", price: 100, veg: true, category: "starter", img: "Paneer-Tikka-Featured.jpg" },
+  { id: 5, name: "Rasmalai", price: 80, veg: true, category: "dessert", img: "Rasmalai-720x722.jpg" },
+  { id: 6, name: "Chicken Tikka", price: 200, veg: false, category: "starter", img: "chicken_tikka.webp" },
+  { id: 7, name: "Butter Chicken", price: 250, veg: false, category: "main", img: "butter.webp" },
+  { id: 8, name: "Veg Biryani", price: 250, veg: true, category: "main", img: "veg-biryani-1300x972.jpeg" },
+];
+
+let cart = [];
+let orderQueue = [];
+
+function showSection(id) {
+  document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+}
+
+function filterMenu() {
+  const vegFilter = document.getElementById("vegFilter").value;
+  const categoryFilter = document.getElementById("categoryFilter").value;
+
+  const filtered = menuItems.filter(item => {
+    const vegMatch = vegFilter === "all" || (vegFilter === "veg" && item.veg) || (vegFilter === "nonveg" && !item.veg);
+    const catMatch = categoryFilter === "all" || item.category === categoryFilter;
+    return vegMatch && catMatch;
+  });
+
+  displayMenu(filtered);
+}
+
+function displayMenu(items) {
+  const container = document.getElementById("menuItems");
+  container.innerHTML = "";
+  items.forEach(item => {
+    const div = document.createElement("div");
+    div.className = "menu-item";
+    div.innerHTML = `
+      <img src="${item.img}" alt="${item.name}" />
+      <h3>${item.name}</h3>
+      <p>₹${item.price}</p>
+      <button onclick="addToCart(${item.id})">Add to Cart</button>
+    `;
+    container.appendChild(div);
+  });
+}
+
+displayMenu(menuItems);
+
+function addToCart(id) {
+  const item = menuItems.find(m => m.id === id);
+  cart.push(item);
+  updateCart();
+  updateInvoice();
+  showPopup(`${item.name} added to cart!`);
+}
+
+function updateCart() {
+  const cartContainer = document.getElementById("cartItems");
+  const totalPriceEl = document.getElementById("totalPrice");
+  cartContainer.innerHTML = "";
+
+  let total = 0;
+  cart.forEach((item, i) => {
+    const div = document.createElement("div");
+    div.textContent = `${item.name} - ₹${item.price}`;
+    cartContainer.appendChild(div);
+    total += item.price;
+  });
+
+  totalPriceEl.textContent = total;
+}
+
+function placeOrder() {
+  if (cart.length === 0) return alert("Cart is empty");
+  orderQueue.push([...cart]);
+  cart = [];
+  updateCart();
+  updateInvoice();
+  updateQueue();
+  showPopup("Order placed!");
+}
+
+function updateQueue() {
+  const container = document.getElementById("orderQueue");
+  container.innerHTML = "";
+  orderQueue.forEach((order, i) => {
+    const div = document.createElement("div");
+    div.innerHTML = `<strong>Order ${i + 1}</strong><ul>${order.map(o => `<li>${o.name}</li>`).join('')}</ul>`;
+    container.appendChild(div);
+  });
+}
+
+function updateInvoice() {
+  const invoiceContent = document.getElementById("invoiceContent");
+  invoiceContent.innerHTML = "";
+
+  if (cart.length === 0) {
+    invoiceContent.textContent = "Cart is empty.";
+    return;
+  }
+
+  let total = 0;
+  const ul = document.createElement("ul");
+  cart.forEach(item => {
+    const li = document.createElement("li");
+    li.textContent = `${item.name} - ₹${item.price}`;
+    total += item.price;
+    ul.appendChild(li);
+  });
+
+  invoiceContent.appendChild(ul);
+  invoiceContent.innerHTML += `<strong>Total: ₹${total}</strong>`;
+}
+
+function bookTable(e) {
+  e.preventDefault();
+  const inputs = e.target.querySelectorAll("input");
+  const details = Array.from(inputs).map(i => i.value);
+  const bookingList = document.getElementById("bookingList");
+  const p = document.createElement("p");
+  p.textContent = `Booked: ${details.join(" | ")}`;
+  bookingList.appendChild(p);
+  showPopup("Table booked successfully!");
+  e.target.reset();
+}
+
+function showPopup(message) {
+  const popup = document.getElementById("popup");
+  popup.textContent = message;
+  popup.style.display = "block";
+  setTimeout(() => {
+    popup.style.display = "none";
+  }, 2000);
+}
+
+document.addEventListener("DOMContentLoaded", () => filterMenu());
+
+  </script>
+</body>
+</html>

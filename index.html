@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Order Management - Udupi</title>
+    <link rel="stylesheet" href="prostyle.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <div class="logo">U</div>
+                <span>Udupi Restaurant</span>
+            </div>
+            <div class="nav-tabs">
+                <button class="nav-tab active" data-tab="menu">
+                    <i class="fas fa-utensils"></i>
+                    <span>Menu</span>
+                </button>
+                <button class="nav-tab" data-tab="cart">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>Cart</span>
+                    <span class="cart-badge" id="cartBadge">0</span>
+                </button>
+                <button class="nav-tab" data-tab="booking">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>Booking</span>
+                </button>
+                <button class="nav-tab" data-tab="orders">
+                    <i class="fas fa-clipboard-list"></i>
+                    <span>Orders</span>
+                </button>
+                <button class="nav-tab" data-tab="invoice">
+                    <i class="fas fa-receipt"></i>
+                    <span>Invoice</span>
+                </button>
+                <button class="nav-tab" data-tab="dashboard">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+     
+    <main class="main-content">
+        <!-- Menu Section -->
+        
+        <section id="menu" class="tab-content active">
+            <div class="section-header">
+                <h2>Our Menu</h2>
+                <div class="filters">
+                    <div class="filter-group">
+                        <button class="filter-btn active" data-type="all">All</button>
+                        <button class="filter-btn" data-type="veg">
+                            <span class="veg-indicator"></span>Vegetarian
+                        </button>
+                        <button class="filter-btn" data-type="non-veg">
+                            <span class="non-veg-indicator"></span>Non-Vegetarian
+                        </button>
+                    </div>
+                    <div class="category-filters">
+                        <button class="category-btn active" data-category="all">All Categories</button>
+                        <button class="category-btn" data-category="starters">Starters</button>
+                        <button class="category-btn" data-category="main-course">Main Course</button>
+                        <button class="category-btn" data-category="desserts">Desserts</button>
+                        <button class="category-btn" data-category="beverages">Beverages</button>
+                    </div>
+                </div>
+            </div>
+            <div class="menu-grid" id="menuGrid">
+                <!-- Menu items will be populated by JavaScript -->
+            </div>
+        </section>
+    
+
+        <!-- Cart Section -->
+        <section id="cart" class="tab-content">
+            <div class="section-header">
+                <h2>Your Cart</h2>
+            </div>
+            <div class="cart-container">
+                <div class="cart-items" id="cartItems">
+                    <div class="empty-cart">
+                        <i class="fas fa-shopping-cart"></i>
+                        <p>Your cart is empty</p>
+                        <p>Add some delicious items from our menu!</p>
+                    </div>
+                </div>
+                <div class="cart-summary" id="cartSummary" style="display: none;">
+                    <div class="summary-row">
+                        <span>Subtotal:</span>
+                        <span id="subtotal">₹0</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Tax (5%):</span>
+                        <span id="tax">₹0</span>
+                    </div>
+                    <div class="summary-row total">
+                        <span>Total:</span>
+                        <span id="total">₹0</span>
+                    </div>
+                    <button class="place-order-btn" id="placeOrderBtn">
+                        <i class="fas fa-check"></i>
+                        Place Order
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Table Booking Section -->
+        <section id="booking" class="tab-content">
+            <div class="section-header">
+                <h2>Table Reservation</h2>
+            </div>
+            <div class="booking-container">
+                <form class="booking-form" id="bookingForm">
+                    <div class="form-group">
+                        <label for="customerName">
+                            <i class="fas fa-user"></i>
+                            Full Name
+                        </label>
+                        <input type="text" id="customerName" name="customerName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="customerContact">
+                            <i class="fas fa-phone"></i>
+                            Contact Number
+                        </label>
+                        <input type="tel" id="customerContact" name="customerContact" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="guestCount">
+                                <i class="fas fa-users"></i>
+                                Number of Guests
+                            </label>
+                            <select id="guestCount" name="guestCount" required>
+                                <option value="">Select</option>
+                                <option value="1">1 Guest</option>
+                                <option value="2">2 Guests</option>
+                                <option value="3">3 Guests</option>
+                                <option value="4">4 Guests</option>
+                                <option value="5">5 Guests</option>
+                                <option value="6">6+ Guests</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="bookingDate">
+                                <i class="fas fa-calendar"></i>
+                                Date
+                            </label>
+                            <input type="date" id="bookingDate" name="bookingDate" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="bookingTime">
+                            <i class="fas fa-clock"></i>
+                            Preferred Time
+                        </label>
+                        <select id="bookingTime" name="bookingTime" required>
+                            <option value="">Select Time</option>
+                            <option value="11:00">11:00 AM</option>
+                            <option value="11:30">11:30 AM</option>
+                            <option value="12:00">12:00 PM</option>
+                            <option value="12:30">12:30 PM</option>
+                            <option value="13:00">1:00 PM</option>
+                            <option value="13:30">1:30 PM</option>
+                            <option value="14:00">2:00 PM</option>
+                            <option value="19:00">7:00 PM</option>
+                            <option value="19:30">7:30 PM</option>
+                            <option value="20:00">8:00 PM</option>
+                            <option value="20:30">8:30 PM</option>
+                            <option value="21:00">9:00 PM</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="submit-btn">
+                        <i class="fas fa-calendar-check"></i>
+                        Book Table
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Order Queue Section -->
+        <section id="orders" class="tab-content">
+            <div class="section-header">
+                <h2>Order Queue</h2>
+                <div class="queue-stats">
+                    <div class="stat">
+                        <span class="stat-number" id="pendingCount">0</span>
+                        <span class="stat-label">Pending</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number" id="inProgressCount">0</span>
+                        <span class="stat-label">In Progress</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number" id="completedCount">0</span>
+                        <span class="stat-label">Completed</span>
+                    </div>
+                </div>
+            </div>
+            <div class="orders-container" id="ordersContainer">
+                <div class="empty-orders">
+                    <i class="fas fa-clipboard-list"></i>
+                    <p>No orders yet</p>
+                    <p>Orders will appear here when customers place them</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Invoice Section -->
+        <section id="invoice" class="tab-content">
+            <div class="section-header">
+                <h2>Invoice</h2>
+                <button class="print-btn" id="printInvoice">
+                    <i class="fas fa-print"></i>
+                    Print Invoice
+                </button>
+            </div>
+            <div class="invoice-container" id="invoiceContainer">
+                <div class="invoice" id="invoice">
+                    <div class="invoice-header">
+                        <div class="restaurant-info">
+                            <div class="restaurant-logo">U</div>
+                            <div>
+                                <h3>Udupi Restaurant</h3>
+                                <p>Authentic South Indian Cuisine</p>
+                                <p>123 Restaurant Street, Food City</p>
+                                <p>Phone: +91 98765 43210</p>
+                            </div>
+                        </div>
+                        <div class="invoice-details">
+                            <h4>INVOICE</h4>
+                            <p>Invoice #: <span id="invoiceNumber">INV-001</span></p>
+                            <p>Date: <span id="invoiceDate"></span></p>
+                            <p>Time: <span id="invoiceTime"></span></p>
+                        </div>
+                    </div>
+                    
+                    <div class="invoice-items" id="invoiceItems">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Item</th>
+                                    <th>Qty</th>
+                                    <th>Price</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody id="invoiceItemsList">
+                                <!-- Invoice items will be populated here -->
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="invoice-summary">
+                        <div class="summary-row">
+                            <span>Subtotal:</span>
+                            <span id="invoiceSubtotal">₹0</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Tax (5%):</span>
+                            <span id="invoiceTax">₹0</span>
+                        </div>
+                        <div class="summary-row total">
+                            <span>Total Amount:</span>
+                            <span id="invoiceTotal">₹0</span>
+                        </div>
+                    </div>
+                    
+                    <div class="invoice-footer">
+                        <div class="thank-you">
+                            <h4>Thank You for Dining With Us!</h4>
+                            <p>We hope you enjoyed your meal. Please visit us again soon!</p>
+                            <p>Follow us on social media @UdupiRestaurant</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Staff Dashboard Section -->
+        <section id="dashboard" class="tab-content">
+            <div class="section-header">
+                <h2>Staff Dashboard</h2>
+                <div class="dashboard-time" id="dashboardTime"></div>
+            </div>
+            <div class="dashboard-grid">
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <h3>Today's Orders</h3>
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="card-content">
+                        <div class="metric">
+                            <span class="metric-value" id="todayOrders">0</span>
+                            <span class="metric-label">Total Orders</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-value" id="todayRevenue">₹0</span>
+                            <span class="metric-label">Revenue</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <h3>Table Status</h3>
+                        <i class="fas fa-table"></i>
+                    </div>
+                    <div class="card-content">
+                        <div class="table-status">
+                            <div class="table-row">
+                                <span>Available Tables</span>
+                                <span class="status-badge available">8</span>
+                            </div>
+                            <div class="table-row">
+                                <span>Occupied Tables</span>
+                                <span class="status-badge occupied">4</span>
+                            </div>
+                            <div class="table-row">
+                                <span>Reserved Tables</span>
+                                <span class="status-badge reserved" id="reservedTables">2</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <h3>Current Bookings</h3>
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <div class="card-content">
+                        <div class="bookings-list" id="dashboardBookings">
+                            <div class="no-bookings">
+                                <i class="fas fa-calendar"></i>
+                                <p>No bookings for today</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <h3>Popular Items</h3>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="card-content">
+                        <div class="popular-items">
+                            <div class="popular-item">
+                                <span>Masala Dosa</span>
+                                <div class="popularity-bar">
+                                    <div class="popularity-fill" style="width: 85%"></div>
+                                </div>
+                            </div>
+                            <div class="popular-item">
+                                <span>Butter Chicken</span>
+                                <div class="popularity-bar">
+                                    <div class="popularity-fill" style="width: 70%"></div>
+                                </div>
+                            </div>
+                            <div class="popular-item">
+                                <span>Biryani</span>
+                                <div class="popularity-bar">
+                                    <div class="popularity-fill" style="width: 90%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="proscript.js"></script>
+</body>
+</html>
